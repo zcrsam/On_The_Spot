@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On The Spot - Random Topic Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #fff;
+            font-weight: 600;
+            font-size: 2rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.875rem;
+            font-weight: 400;
+            margin-bottom: 3rem;
+            letter-spacing: 0.02em;
+        }
+
+        .topic-display {
+            background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+            min-height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .topic-text {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            line-height: 1.4;
+            transition: all 0.3s ease;
+        }
+
+        .topic-text.rolling {
+            opacity: 0.3;
+            transform: scale(0.95);
+        }
+
+        .topic-text.revealed {
+            animation: reveal 0.5s ease-out;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .spin-button {
+            background: #fff;
+            color: #0a0a0a;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            letter-spacing: -0.01em;
+        }
+
+        .spin-button:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(255,255,255,0.1);
+        }
+
+        .spin-button:active {
+            transform: translateY(0);
+        }
+
+        .spin-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            color: #333;
+            font-size: 0.75rem;
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>On The Spot</h1>
+        <p class="subtitle">Click the button to get a random discussion topic</p>
+        
+        <div class="topic-display">
+            <p class="topic-text" id="topic">Ready to spin?</p>
+        </div>
+        
+        <button class="spin-button" id="spinButton" onclick="spinTopic()">Spin Topic</button>
+        
+        <p class="footer">Class Activity Tool</p>
+    </div>
+
+    <script>
+        const topics = [
+            "Dunning-Kruger Effect",
+            "Pareto Principle (80/20 Rule)",
+            "Confirmation Bias",
+            "Cognitive Dissonance",
+            "Imposter Syndrome",
+            "Survivorship Bias",
+            "Sunk Cost Fallacy",
+            "Anchoring Bias",
+            "Availability Heuristic",
+            "Fundamental Attribution Error",
+            "Groupthink",
+            "Spotlight Effect",
+            "Halo Effect",
+            "Self-Fulfilling Prophecy",
+            "Placebo Effect",
+            "Bandwagon Effect",
+            "False Consensus Effect",
+            "Optimism Bias",
+            "Negativity Bias",
+            "Recency Bias",
+            "Loss Aversion",
+            "Endowment Effect",
+            "Decoy Effect",
+            "Framing Effect",
+            "Status Quo Bias",
+            "Omission Bias",
+            "Action Bias",
+            "Choice Paradox",
+            "Zeigarnik Effect",
+            "Baader-Meinhof Phenomenon",
+            "Ben Franklin Effect",
+            "Foot-in-the-door Technique",
+            "Door-in-the-face Technique",
+            "Reactance Theory",
+            "Social Proof",
+            "Authority Bias",
+            "Scarcity Principle",
+            "Reciprocity Norm",
+            "Commitment Consistency",
+            "Liking Principle",
+            "Unity Principle",
+            "Motivated Reasoning",
+            "Belief Perseverance",
+            "Backfire Effect",
+            "Bias Blind Spot",
+            "Not Invented Here Syndrome",
+            "IKEA Effect",
+            "Planning Fallacy",
+            "Hindsight Bias",
+            "Outcome Bias",
+            "Gambler's Fallacy",
+            "Hot Hand Fallacy",
+            "Texas Sharpshooter Fallacy",
+            "Syllogistic Fallacy",
+            "Equivocation Fallacy",
+            "Straw Man Fallacy",
+            "Ad Hominem Fallacy",
+            "Slippery Slope Fallacy",
+            "False Dilemma Fallacy",
+            "Circular Reasoning",
+            "Post Hoc Ergo Propter Hoc",
+            "Cum Hoc Ergo Propter Hoc",
+            "Appeal to Authority",
+            "Appeal to Emotion",
+            "Appeal to Ignorance",
+            "Appeal to Tradition",
+            "Appeal to Novelty",
+            "Tu Quoque Fallacy",
+            "No True Scotsman Fallacy",
+            "Red Herring Fallacy",
+            "Cherry Picking",
+            "Moving the Goalposts",
+            "Ambiguity Fallacy",
+            "Accent Fallacy",
+            "Equivocation",
+            "Composition Fallacy",
+            "Division Fallacy",
+            "False Analogy",
+            "False Cause",
+            "Hasty Generalization",
+            "Overprecision Effect",
+            "Hard-Easy Effect",
+            "Curse of Knowledge",
+            "Illusion of Transparency",
+            "Illusion of Validity",
+            "Illusion of Control",
+            "Gambler's Fallacy",
+            "Hot Hand Fallacy",
+            "Conjunction Fallacy",
+            "Base Rate Fallacy",
+            "Representativeness Heuristic",
+            "Affect Heuristic",
+            "Familiarity Heuristic",
+            "Simulation Heuristic",
+            "Take-the-best Heuristic",
+            "Recognition Heuristic",
+            "Fluency Heuristic",
+            "Satisficing",
+            "Bounded Rationality",
+            "Rational Choice Theory",
+            "Expected Utility Theory",
+            "Prospect Theory",
+            "Regret Theory",
+            "Disappointment Theory",
+            "Rank-Dependent Utility Theory",
+            "Cumulative Prospect Theory",
+            "Mental Accounting",
+            "Behavioral Portfolio Theory",
+            "Life-Cycle Hypothesis",
+            "Permanent Income Hypothesis",
+            "Relative Income Hypothesis",
+            "Adaptive Expectations",
+            "Rational Expectations",
+            "Efficient Market Hypothesis",
+            "Random Walk Theory",
+            "Modern Portfolio Theory",
+            "Capital Asset Pricing Model",
+            "Arbitrage Pricing Theory",
+            "Black-Scholes Model",
+            "Option Pricing Theory",
+            "Game Theory",
+            "Nash Equilibrium",
+            "Prisoner's Dilemma",
+            "Tragedy of the Commons",
+            "Free Rider Problem",
+            "Public Goods Theory",
+            "Externalities Theory",
+            "Coase Theorem",
+            "Pigouvian Tax",
+            "Laffer Curve",
+            "Ricardian Equivalence",
+            "Paradox of Thrift",
+            "Paradox of Value",
+            "St. Petersburg Paradox",
+            "Allais Paradox",
+            "Ellsberg Paradox",
+            "Condorcet Paradox",
+            "Arrow's Impossibility Theorem",
+            "Gibbard-Satterthwaite Theorem",
+            "Median Voter Theorem",
+            "Duverger's Law",
+            "Downsian Model",
+            "Spatial Model of Voting",
+            "Social Choice Theory",
+            "Welfare Economics",
+            "Pareto Efficiency",
+            "Kaldor-Hicks Efficiency",
+            "Social Welfare Function",
+            "Utilitarianism",
+            "Rawlsian Justice",
+            "Nozick's Entitlement Theory",
+            "Amartya Sen's Capability Approach",
+            "Human Development Index",
+            "Gini Coefficient",
+            "Lorenz Curve",
+            "Poverty Line",
+            "Multidimensional Poverty Index",
+            "Sustainable Development Goals",
+            "Circular Economy",
+            "Doughnut Economics",
+            "Degrowth Theory",
+            "Steady-State Economy",
+            "Ecological Economics",
+            "Environmental Economics",
+            "Natural Capital",
+            "Ecosystem Services",
+            "Carbon Pricing",
+            "Cap and Trade",
+            "Carbon Tax",
+            "Green Bonds",
+            "ESG Investing",
+            "Impact Investing",
+            "Socially Responsible Investing",
+            "Corporate Social Responsibility",
+            "Triple Bottom Line",
+            "Shared Value",
+            "Stakeholder Theory",
+            "Corporate Governance",
+            "Business Ethics",
+            "Sustainable Supply Chain",
+            "Life Cycle Assessment",
+            "Carbon Footprint",
+            "Water Footprint",
+            "Ecological Footprint",
+            "Planetary Boundaries",
+            "Anthropocene",
+            "Climate Change",
+            "Global Warming",
+            "Ocean Acidification",
+            "Biodiversity Loss",
+            "Deforestation",
+            "Desertification",
+            "Air Pollution",
+            "Water Pollution",
+            "Soil Pollution",
+            "Noise Pollution",
+            "Light Pollution",
+            "Plastic Pollution",
+            "Electronic Waste",
+            "Nuclear Waste",
+            "Hazardous Waste",
+            "Waste Management",
+            "Recycling",
+            "Composting",
+            "Zero Waste",
+            "Circular Design",
+            "Cradle to Cradle",
+            "Biomimicry",
+            "Permaculture",
+            "Regenerative Agriculture",
+            "Organic Farming",
+            "Agroecology",
+            "Urban Agriculture",
+            "Vertical Farming",
+            "Hydroponics",
+            "Aquaponics",
+            "Precision Agriculture",
+            "Smart Farming",
+            "Digital Agriculture",
+            "AgriTech",
+            "FoodTech",
+            "Food Security",
+            "Food Sovereignty",
+            "Food Systems",
+            "Farm to Table",
+            "Local Food",
+            "Slow Food Movement",
+            "Food Justice",
+            "Food Desert",
+            "Food Swamp",
+            "Food Apartheid",
+            "Nutrition Transition",
+            "Obesity Epidemic",
+            "Malnutrition",
+            "Hidden Hunger",
+            "Micronutrient Deficiency",
+            "Fortification",
+            "Biofortification",
+            "GMOs",
+            "Gene Editing",
+            "CRISPR",
+            "Synthetic Biology",
+            "Biotechnology",
+            "Nanotechnology",
+            "Artificial Intelligence",
+            "Machine Learning",
+            "Deep Learning",
+            "Neural Networks",
+            "Natural Language Processing",
+            "Computer Vision",
+            "Robotics",
+            "Automation",
+            "Internet of Things",
+            "Blockchain",
+            "Cryptocurrency",
+            "Bitcoin",
+            "Ethereum",
+            "NFTs",
+            "DeFi",
+            "Web3",
+            "Metaverse",
+            "Virtual Reality",
+            "Augmented Reality",
+            "Mixed Reality",
+            "Extended Reality",
+            "Spatial Computing",
+            "Quantum Computing",
+            "Edge Computing",
+            "Cloud Computing",
+            "Fog Computing",
+            "Distributed Computing",
+            "Parallel Computing",
+            "High-Performance Computing",
+            "Supercomputing",
+            "Big Data",
+            "Data Science",
+            "Data Analytics",
+            "Data Visualization",
+            "Data Mining",
+            "Data Warehousing",
+            "Data Lakes",
+            "Data Governance",
+            "Data Privacy",
+            "Data Security",
+            "Cybersecurity",
+            "Information Security",
+            "Network Security",
+            "Application Security",
+            "Cloud Security",
+            "IoT Security",
+            "AI Security",
+            "Quantum Cryptography",
+            "Digital Transformation",
+            "Industry 4.0",
+            "Fourth Industrial Revolution",
+            "Smart Cities",
+            "Smart Homes",
+            "Smart Grids",
+            "Smart Transportation",
+            "Autonomous Vehicles",
+            "Self-Driving Cars",
+            "Electric Vehicles",
+            "Hybrid Vehicles",
+            "Sustainable Transportation",
+            "Public Transportation",
+            "Mass Transit",
+            "High-Speed Rail",
+            "Hyperloop",
+            "Urban Planning",
+            "City Design",
+            "Walkability",
+            "Bikeability",
+            "Complete Streets",
+            "Transit-Oriented Development",
+            "Mixed-Use Development",
+            "New Urbanism",
+            "Smart Growth",
+            "Sustainable Development",
+            "Green Building",
+            "LEED Certification",
+            "Passive House",
+            "Net Zero Energy",
+            "Net Zero Carbon",
+            "Carbon Neutrality",
+            "Climate Neutrality",
+            "Energy Efficiency",
+            "Renewable Energy",
+            "Solar Energy",
+            "Wind Energy",
+            "Hydro Energy",
+            "Geothermal Energy",
+            "Biomass Energy",
+            "Nuclear Energy",
+            "Fusion Energy",
+            "Hydrogen Economy",
+            "Energy Storage",
+            "Battery Technology",
+            "Grid Modernization",
+            "Microgrids",
+            "Distributed Energy Resources",
+            "Demand Response",
+            "Energy Management",
+            "Carbon Capture",
+            "Carbon Removal",
+            "Direct Air Capture",
+            "Bioenergy with Carbon Capture",
+            "Reforestation",
+            "Afforestation",
+            "Blue Carbon",
+            "Nature-Based Solutions",
+            "Ecosystem Restoration",
+            "Restoration Ecology",
+            "Conservation Biology",
+            "Conservation Science",
+            "Biodiversity Conservation",
+            "Species Conservation",
+            "Habitat Conservation",
+            "Protected Areas",
+            "National Parks",
+            "Wildlife Corridors",
+            "Ecological Restoration",
+            "Rewilding",
+            "Invasive Species",
+            "Endangered Species",
+            "Extinction Crisis",
+            "Mass Extinction",
+            "Anthropocene Extinction",
+            "Biodiversity Hotspots",
+            "Ecosystem Services",
+            "Natural Capital Accounting",
+            "Green GDP",
+            "Beyond GDP",
+            "Genuine Progress Indicator",
+            "Human Development Index",
+            "Happy Planet Index",
+            "Social Progress Index",
+            "Better Life Index",
+            "World Happiness Report",
+            "Gross National Happiness",
+            "Subjective Well-Being",
+            "Positive Psychology",
+            "Flourishing",
+            "Eudaimonia",
+            "Meaning in Life",
+            "Purpose in Life",
+            "Life Satisfaction",
+            "Quality of Life",
+            "Standard of Living",
+            "Cost of Living",
+            "Purchasing Power Parity",
+            "Big Mac Index",
+            "Human Development",
+            "Sustainable Development",
+            "Inclusive Development",
+            "Equitable Development",
+            "Participatory Development",
+            "Community Development",
+            "Local Development",
+            "Regional Development",
+            "Rural Development",
+            "Urban Development",
+            "Economic Development",
+            "Social Development",
+            "Political Development",
+            "Cultural Development",
+            "Technological Development",
+            "Sustainable Development Goals",
+            "Millennium Development Goals",
+            "Agenda 2030",
+            "Paris Agreement",
+            "Kyoto Protocol",
+            "Montreal Protocol",
+            "Rio Declaration",
+            "Agenda 21",
+            "Stockholm Convention",
+            "Basel Convention",
+            "Rotterdam Convention",
+            "Minamata Convention",
+            "Convention on Biological Diversity",
+            "UNFCCC",
+            "UNCCD",
+            "UNCLOS",
+            "UNDRIP",
+            "UDHR",
+            "ICCPR",
+            "ICESCR",
+            "CEDAW",
+            "CRC",
+            "CRPD",
+            "ILO Conventions",
+            "Geneva Conventions",
+            "Rome Statute",
+            "Vienna Convention",
+            "Hague Conventions",
+            "WTO Agreements",
+            "NAFTA",
+            "USMCA",
+            "EU Single Market",
+            "ASEAN Economic Community",
+            "Mercosur",
+            "African Continental Free Trade Area",
+            "Regional Comprehensive Economic Partnership",
+            "Comprehensive and Progressive Agreement for Trans-Pacific Partnership",
+            "Belt and Road Initiative",
+            "Asian Infrastructure Investment Bank",
+            "New Development Bank",
+            "World Bank",
+            "IMF",
+            "WTO",
+            "UN",
+            "UNESCO",
+            "UNICEF",
+            "UNHCR",
+            "UNDP",
+            "UNEP",
+            "UN Women",
+            "WHO",
+            "FAO",
+            "ILO",
+            "IMO",
+            "ICAO",
+            "ITU",
+            "UPU",
+            "WMO",
+            "WIPO",
+            "IAEA",
+            "CTBTO",
+            "OPCW",
+            "ICC",
+            "ICJ",
+            "PCA",
+            "ITLOS",
+            "ISA",
+            "WTO",
+            "UNWTO",
+            "UNIDO",
+            "UNOPS",
+            "UNRWA",
+            "UNU",
+            "UNAIDS",
+            "UNFPA",
+            "UN-Habitat",
+            "UNODC",
+            "UNOPS",
+            "UNRWA",
+            "UNU",
+            "UN Women",
+            "UNOPS",
+            "UNRWA",
+            "UNU"
+        ];
+
+        let isRolling = false;
+        let rollInterval;
+        const topicElement = document.getElementById('topic');
+        const spinButton = document.getElementById('spinButton');
+
+        function spinTopic() {
+            if (isRolling) return;
+            
+            isRolling = true;
+            spinButton.disabled = true;
+            topicElement.classList.add('rolling');
+            topicElement.classList.remove('revealed');
+            
+            let counter = 0;
+            const totalRolls = 20;
+            const rollDuration = 2000;
+            const intervalTime = rollDuration / totalRolls;
+            
+            rollInterval = setInterval(() => {
+                const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+                topicElement.textContent = randomTopic;
+                counter++;
+                
+                if (counter >= totalRolls) {
+                    clearInterval(rollInterval);
+                    finalizeTopic();
+                }
+            }, intervalTime);
+        }
+
+        function finalizeTopic() {
+            const finalTopic = topics[Math.floor(Math.random() * topics.length)];
+            topicElement.textContent = finalTopic;
+            topicElement.classList.remove('rolling');
+            topicElement.classList.add('revealed');
+            
+            isRolling = false;
+            spinButton.disabled = false;
+        }
+    </script>
+</body>
+</html>
