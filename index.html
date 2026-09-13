@@ -64,7 +64,33 @@
         }
 
         .subject-selector {
+            margin-bottom: 1rem;
+        }
+
+        .topic-count-selector {
             margin-bottom: 2rem;
+        }
+
+        .topic-count-selector select {
+            background: transparent;
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        body.light-mode .topic-count-selector select {
+            color: #1a1a1a;
+        }
+
+        .topic-count-selector select:hover {
+            color: #ff00ff;
         }
 
         .subject-selector select {
@@ -191,11 +217,19 @@
             background: transparent;
             color: #fff;
             border: none;
-            font-size: 2rem;
-            font-weight: 600;
-            width: 60px;
+            font-size: 3rem;
+            font-weight: 300;
+            width: 80px;
             text-align: center;
             font-family: inherit;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        .timer-input::-webkit-outer-spin-button,
+        .timer-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
         body.light-mode .timer-input {
@@ -208,8 +242,8 @@
         }
 
         .timer-separator {
-            font-size: 2rem;
-            font-weight: 600;
+            font-size: 3rem;
+            font-weight: 300;
             color: #fff;
         }
 
@@ -332,6 +366,14 @@
                 <option value="living-in-it-era">Living in the IT Era</option>
                 <option value="psychology">Psychology & Cognitive Science</option>
                 <option value="mixed">Mixed Topics</option>
+            </select>
+        </div>
+
+        <div class="topic-count-selector">
+            <select id="topicCountSelect" onchange="updateTopicCount()">
+                <option value="1">1 Topic</option>
+                <option value="2" selected>2 Topics</option>
+                <option value="3">3 Topics</option>
             </select>
         </div>
         
@@ -1184,13 +1226,20 @@
         };
 
         let currentTopics = topicSets['living-in-it-era'];
+        let topicCount = 2;
 
         let isRolling = false;
         let rollInterval;
-        const topic1Element = document.getElementById('topic1');
-        const topic2Element = document.getElementById('topic2');
         const spinButton = document.getElementById('spinButton');
         const subjectSelect = document.getElementById('subjectSelect');
+
+        function getTopicElements() {
+            const elements = [];
+            for (let i = 1; i <= topicCount; i++) {
+                elements.push(document.getElementById(`topic${i}`));
+            }
+            return elements;
+        }
 
         let timerInterval;
         let timerSeconds = 120;
@@ -1199,6 +1248,26 @@
         function updateTopics() {
             const selectedSubject = subjectSelect.value;
             currentTopics = topicSets[selectedSubject];
+        }
+
+        function updateTopicCount() {
+            topicCount = parseInt(document.getElementById('topicCountSelect').value);
+            updateTopicDisplay();
+        }
+
+        function updateTopicDisplay() {
+            const topicPair = document.querySelector('.topic-pair');
+            topicPair.innerHTML = '';
+            
+            for (let i = 1; i <= topicCount; i++) {
+                const topicItem = document.createElement('div');
+                topicItem.className = 'topic-item';
+                topicItem.innerHTML = `
+                    <p class="topic-label">Topic ${i}</p>
+                    <p class="topic-text" id="topic${i}">Ready to spin?</p>
+                `;
+                topicPair.appendChild(topicItem);
+            }
         }
 
         function toggleTheme() {
@@ -1257,10 +1326,12 @@
             
             isRolling = true;
             spinButton.disabled = true;
-            topic1Element.classList.add('rolling');
-            topic2Element.classList.add('rolling');
-            topic1Element.classList.remove('revealed');
-            topic2Element.classList.remove('revealed');
+            
+            const topicElements = getTopicElements();
+            topicElements.forEach(el => {
+                el.classList.add('rolling');
+                el.classList.remove('revealed');
+            });
             
             let counter = 0;
             const totalRolls = 20;
@@ -1268,17 +1339,23 @@
             const intervalTime = rollDuration / totalRolls;
             
             rollInterval = setInterval(() => {
-                const randomTopic1 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
-                const randomTopic2 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+                const selectedTopics = [];
+                const usedTopics = new Set();
                 
-                // Ensure different topics
-                let topic2 = randomTopic2;
-                while (topic2 === randomTopic1 && currentTopics.length > 1) {
-                    topic2 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+                for (let i = 0; i < topicCount; i++) {
+                    let randomTopic;
+                    do {
+                        randomTopic = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+                    } while (usedTopics.has(randomTopic) && usedTopics.size < currentTopics.length);
+                    
+                    usedTopics.add(randomTopic);
+                    selectedTopics.push(randomTopic);
                 }
                 
-                topic1Element.textContent = randomTopic1;
-                topic2Element.textContent = topic2;
+                topicElements.forEach((el, index) => {
+                    el.textContent = selectedTopics[index];
+                });
+                
                 counter++;
                 
                 if (counter >= totalRolls) {
@@ -1289,20 +1366,25 @@
         }
 
         function finalizeTopic() {
-            const finalTopic1 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
-            let finalTopic2 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+            const topicElements = getTopicElements();
+            const selectedTopics = [];
+            const usedTopics = new Set();
             
-            // Ensure different topics
-            while (finalTopic2 === finalTopic1 && currentTopics.length > 1) {
-                finalTopic2 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+            for (let i = 0; i < topicCount; i++) {
+                let randomTopic;
+                do {
+                    randomTopic = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+                } while (usedTopics.has(randomTopic) && usedTopics.size < currentTopics.length);
+                
+                usedTopics.add(randomTopic);
+                selectedTopics.push(randomTopic);
             }
             
-            topic1Element.textContent = finalTopic1;
-            topic2Element.textContent = finalTopic2;
-            topic1Element.classList.remove('rolling');
-            topic2Element.classList.remove('rolling');
-            topic1Element.classList.add('revealed');
-            topic2Element.classList.add('revealed');
+            topicElements.forEach((el, index) => {
+                el.textContent = selectedTopics[index];
+                el.classList.remove('rolling');
+                el.classList.add('revealed');
+            });
             
             isRolling = false;
             spinButton.disabled = false;
