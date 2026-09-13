@@ -203,10 +203,29 @@
             color: #fff;
             margin-bottom: 1rem;
             letter-spacing: 0.1em;
+            background: transparent;
+            border: 1px solid #333;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         body.light-mode .timer-display {
             color: #1a1a1a;
+            border-color: #e0e0e0;
+        }
+
+        .timer-display:hover {
+            border-color: #008080;
+            color: #008080;
+        }
+
+        .timer-display:focus {
+            outline: none;
+            border-color: #008080;
+            color: #008080;
         }
 
         .timer-controls {
@@ -239,18 +258,24 @@
             right: 2rem;
             background: transparent;
             color: #fff;
-            border: none;
+            border: 1px solid #333;
             padding: 0.5rem 1rem;
             cursor: pointer;
             font-size: 0.875rem;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         body.light-mode .theme-toggle {
             color: #1a1a1a;
+            border-color: #e0e0e0;
         }
 
         .theme-toggle:hover {
+            border-color: #008080;
             color: #008080;
         }
 
@@ -322,7 +347,6 @@
         <p class="subtitle">Select course and spin to get topics to relate</p>
         
         <div class="course-selector">
-            <button class="course-btn" onclick="setCourse('psychology')" id="psychology">Psychology</button>
             <button class="course-btn active" onclick="setCourse('social-work')" id="social-work">Social Work</button>
             <button class="course-btn" onclick="setCourse('hrm')" id="hrm">HRM</button>
             <button class="course-btn" onclick="setCourse('finance')" id="finance">Finance Management</button>
@@ -345,7 +369,7 @@
         <button class="timer-toggle" onclick="toggleTimer()">⏱ Timer</button>
         
         <div class="timer-section" id="timerSection">
-            <p class="timer-display" id="timerDisplay">2:00</p>
+            <input type="text" class="timer-display" id="timerDisplay" value="2:00" onclick="this.select()">
             <div class="timer-controls">
                 <button class="timer-btn" onclick="startTimer()">▶</button>
                 <button class="timer-btn" onclick="pauseTimer()">⏸</button>
@@ -1972,9 +1996,22 @@
         function updateTimerDisplay() {
             const minutes = Math.floor(timerSeconds / 60);
             const seconds = timerSeconds % 60;
-            document.getElementById('timerDisplay').textContent = 
+            document.getElementById('timerDisplay').value = 
                 `${minutes}:${seconds.toString().padStart(2, '0')}`;
         }
+
+        function parseTimerInput() {
+            const input = document.getElementById('timerDisplay').value;
+            const parts = input.split(':');
+            if (parts.length === 2) {
+                const minutes = parseInt(parts[0]) || 0;
+                const seconds = parseInt(parts[1]) || 0;
+                timerSeconds = Math.max(0, minutes * 60 + seconds);
+            }
+        }
+
+        document.getElementById('timerDisplay').addEventListener('change', parseTimerInput);
+        document.getElementById('timerDisplay').addEventListener('blur', parseTimerInput);
 
         function spinTopic() {
             if (isRolling) return;
