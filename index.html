@@ -22,6 +22,11 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            transition: background 0.3s ease;
+        }
+
+        body.light-mode {
+            background: #f5f5f5;
         }
 
         .container {
@@ -38,14 +43,50 @@
             letter-spacing: -0.02em;
             margin-bottom: 0.5rem;
             opacity: 0.9;
+            transition: color 0.3s ease;
+        }
+
+        body.light-mode h1 {
+            color: #1a1a1a;
         }
 
         .subtitle {
             color: #666;
             font-size: 0.875rem;
             font-weight: 400;
-            margin-bottom: 3rem;
+            margin-bottom: 1.5rem;
             letter-spacing: 0.02em;
+            transition: color 0.3s ease;
+        }
+
+        body.light-mode .subtitle {
+            color: #666;
+        }
+
+        .subject-selector {
+            margin-bottom: 2rem;
+        }
+
+        .subject-selector select {
+            background: #1a1a1a;
+            color: #fff;
+            border: 1px solid #333;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .subject-selector select {
+            background: #fff;
+            color: #1a1a1a;
+            border-color: #ddd;
+        }
+
+        .subject-selector select:hover {
+            border-color: #ff00ff;
         }
 
         .topic-display {
@@ -54,8 +95,9 @@
             border-radius: 16px;
             padding: 3rem 2rem;
             margin-bottom: 2rem;
-            min-height: 180px;
+            min-height: 200px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
@@ -63,22 +105,32 @@
             transition: all 0.3s ease;
         }
 
-        .topic-display.rolling {
-            border-color: transparent;
-            background: linear-gradient(135deg, #1a1a1a 0%, #111 100%), 
-                        linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
-            background-origin: border-box;
-            background-clip: padding-box, border-box;
-            animation: borderGlow 2s linear infinite;
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3),
-                        0 0 60px rgba(0, 255, 255, 0.2);
+        body.light-mode .topic-display {
+            background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+            border-color: #e0e0e0;
         }
 
-        @keyframes borderGlow {
-            0% { border-color: #ff00ff; }
-            33% { border-color: #00ffff; }
-            66% { border-color: #ff00ff; }
-            100% { border-color: #00ffff; }
+        .topic-pair {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .topic-item {
+            text-align: center;
+        }
+
+        .topic-label {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        body.light-mode .topic-label {
+            color: #999;
         }
 
         .topic-display::before {
@@ -94,29 +146,27 @@
 
         .topic-text {
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 500;
             letter-spacing: -0.01em;
             line-height: 1.4;
             transition: all 0.3s ease;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        body.light-mode .topic-text {
+            color: #1a1a1a;
         }
 
         .topic-text.rolling {
-            opacity: 1;
-            transform: scale(1);
             animation: neonPulse 0.1s ease-in-out infinite alternate;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
         }
 
         @keyframes neonPulse {
             from {
                 color: #ff00ff;
-                text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
             }
             to {
                 color: #00ffff;
-                text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
             }
         }
 
@@ -133,6 +183,88 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        .timer-section {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: #1a1a1a;
+            border-radius: 12px;
+            display: none;
+        }
+
+        body.light-mode .timer-section {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+        }
+
+        .timer-section.active {
+            display: block;
+        }
+
+        .timer-display {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        body.light-mode .timer-display {
+            color: #1a1a1a;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .timer-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .timer-btn {
+            background: #e0e0e0;
+            color: #1a1a1a;
+        }
+
+        .timer-btn:hover {
+            background: #444;
+        }
+
+        body.light-mode .timer-btn:hover {
+            background: #d0d0d0;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: #1a1a1a;
+            color: #fff;
+            border: 1px solid #333;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .theme-toggle {
+            background: #fff;
+            color: #1a1a1a;
+            border-color: #e0e0e0;
+        }
+
+        .theme-toggle:hover {
+            border-color: #ff00ff;
         }
 
         .spin-button {
@@ -168,535 +300,968 @@
             box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
         }
 
+        .timer-toggle {
+            background: transparent;
+            color: #666;
+            border: 1px solid #333;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        body.light-mode .timer-toggle {
+            color: #666;
+            border-color: #e0e0e0;
+        }
+
+        .timer-toggle:hover {
+            border-color: #ff00ff;
+            color: #ff00ff;
+        }
+
         .footer {
             margin-top: 3rem;
-            color: #333;
+            color: #666;
             font-size: 0.75rem;
             font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        body.light-mode .footer {
+            color: #999;
         }
     </style>
 </head>
 <body>
+    <button class="theme-toggle" onclick="toggleTheme()">☀/☾</button>
+    
     <div class="container">
         <h1>On The Spot</h1>
-        <p class="subtitle">Click the button to get a random discussion topic</p>
+        <p class="subtitle">Select subject and spin to get two topics to relate</p>
         
-        <div class="topic-display">
-            <p class="topic-text" id="topic">Ready to spin?</p>
+        <div class="subject-selector">
+            <select id="subjectSelect" onchange="updateTopics()">
+                <option value="living-in-it-era">Living in the IT Era</option>
+                <option value="psychology">Psychology & Cognitive Science</option>
+                <option value="mixed">Mixed Topics</option>
+            </select>
         </div>
         
-        <button class="spin-button" id="spinButton" onclick="spinTopic()">Spin Topic</button>
+        <div class="topic-display">
+            <div class="topic-pair">
+                <div class="topic-item">
+                    <p class="topic-label">Topic 1</p>
+                    <p class="topic-text" id="topic1">Ready to spin?</p>
+                </div>
+                <div class="topic-item">
+                    <p class="topic-label">Topic 2</p>
+                    <p class="topic-text" id="topic2">Ready to spin?</p>
+                </div>
+            </div>
+        </div>
         
-        <p class="footer">Class Activity Tool</p>
+        <button class="spin-button" id="spinButton" onclick="spinTopic()">Spin Topics</button>
+        <button class="timer-toggle" onclick="toggleTimer()">⏱ Timer</button>
+        
+        <div class="timer-section" id="timerSection">
+            <p class="timer-display" id="timerDisplay">2:00</p>
+            <div class="timer-controls">
+                <button class="timer-btn" onclick="startTimer()">Start</button>
+                <button class="timer-btn" onclick="pauseTimer()">Pause</button>
+                <button class="timer-btn" onclick="resetTimer()">Reset</button>
+            </div>
+        </div>
+        
+        <p class="footer">Made by Sarah Abane</p>
     </div>
 
     <script>
-        const topics = [
-            "Dunning-Kruger Effect",
-            "Pareto Principle (80/20 Rule)",
-            "Confirmation Bias",
-            "Cognitive Dissonance",
-            "Imposter Syndrome",
-            "Survivorship Bias",
-            "Sunk Cost Fallacy",
-            "Anchoring Bias",
-            "Availability Heuristic",
-            "Fundamental Attribution Error",
-            "Groupthink",
-            "Spotlight Effect",
-            "Halo Effect",
-            "Self-Fulfilling Prophecy",
-            "Placebo Effect",
-            "Bandwagon Effect",
-            "False Consensus Effect",
-            "Optimism Bias",
-            "Negativity Bias",
-            "Recency Bias",
-            "Loss Aversion",
-            "Endowment Effect",
-            "Decoy Effect",
-            "Framing Effect",
-            "Status Quo Bias",
-            "Omission Bias",
-            "Action Bias",
-            "Choice Paradox",
-            "Zeigarnik Effect",
-            "Baader-Meinhof Phenomenon",
-            "Ben Franklin Effect",
-            "Foot-in-the-door Technique",
-            "Door-in-the-face Technique",
-            "Reactance Theory",
-            "Social Proof",
-            "Authority Bias",
-            "Scarcity Principle",
-            "Reciprocity Norm",
-            "Commitment Consistency",
-            "Liking Principle",
-            "Unity Principle",
-            "Motivated Reasoning",
-            "Belief Perseverance",
-            "Backfire Effect",
-            "Bias Blind Spot",
-            "Not Invented Here Syndrome",
-            "IKEA Effect",
-            "Planning Fallacy",
-            "Hindsight Bias",
-            "Outcome Bias",
-            "Gambler's Fallacy",
-            "Hot Hand Fallacy",
-            "Texas Sharpshooter Fallacy",
-            "Syllogistic Fallacy",
-            "Equivocation Fallacy",
-            "Straw Man Fallacy",
-            "Ad Hominem Fallacy",
-            "Slippery Slope Fallacy",
-            "False Dilemma Fallacy",
-            "Circular Reasoning",
-            "Post Hoc Ergo Propter Hoc",
-            "Cum Hoc Ergo Propter Hoc",
-            "Appeal to Authority",
-            "Appeal to Emotion",
-            "Appeal to Ignorance",
-            "Appeal to Tradition",
-            "Appeal to Novelty",
-            "Tu Quoque Fallacy",
-            "No True Scotsman Fallacy",
-            "Red Herring Fallacy",
-            "Cherry Picking",
-            "Moving the Goalposts",
-            "Ambiguity Fallacy",
-            "Accent Fallacy",
-            "Equivocation",
-            "Composition Fallacy",
-            "Division Fallacy",
-            "False Analogy",
-            "False Cause",
-            "Hasty Generalization",
-            "Overprecision Effect",
-            "Hard-Easy Effect",
-            "Curse of Knowledge",
-            "Illusion of Transparency",
-            "Illusion of Validity",
-            "Illusion of Control",
-            "Gambler's Fallacy",
-            "Hot Hand Fallacy",
-            "Conjunction Fallacy",
-            "Base Rate Fallacy",
-            "Representativeness Heuristic",
-            "Affect Heuristic",
-            "Familiarity Heuristic",
-            "Simulation Heuristic",
-            "Take-the-best Heuristic",
-            "Recognition Heuristic",
-            "Fluency Heuristic",
-            "Satisficing",
-            "Bounded Rationality",
-            "Rational Choice Theory",
-            "Expected Utility Theory",
-            "Prospect Theory",
-            "Regret Theory",
-            "Disappointment Theory",
-            "Rank-Dependent Utility Theory",
-            "Cumulative Prospect Theory",
-            "Mental Accounting",
-            "Behavioral Portfolio Theory",
-            "Life-Cycle Hypothesis",
-            "Permanent Income Hypothesis",
-            "Relative Income Hypothesis",
-            "Adaptive Expectations",
-            "Rational Expectations",
-            "Efficient Market Hypothesis",
-            "Random Walk Theory",
-            "Modern Portfolio Theory",
-            "Capital Asset Pricing Model",
-            "Arbitrage Pricing Theory",
-            "Black-Scholes Model",
-            "Option Pricing Theory",
-            "Game Theory",
-            "Nash Equilibrium",
-            "Prisoner's Dilemma",
-            "Tragedy of the Commons",
-            "Free Rider Problem",
-            "Public Goods Theory",
-            "Externalities Theory",
-            "Coase Theorem",
-            "Pigouvian Tax",
-            "Laffer Curve",
-            "Ricardian Equivalence",
-            "Paradox of Thrift",
-            "Paradox of Value",
-            "St. Petersburg Paradox",
-            "Allais Paradox",
-            "Ellsberg Paradox",
-            "Condorcet Paradox",
-            "Arrow's Impossibility Theorem",
-            "Gibbard-Satterthwaite Theorem",
-            "Median Voter Theorem",
-            "Duverger's Law",
-            "Downsian Model",
-            "Spatial Model of Voting",
-            "Social Choice Theory",
-            "Welfare Economics",
-            "Pareto Efficiency",
-            "Kaldor-Hicks Efficiency",
-            "Social Welfare Function",
-            "Utilitarianism",
-            "Rawlsian Justice",
-            "Nozick's Entitlement Theory",
-            "Amartya Sen's Capability Approach",
-            "Human Development Index",
-            "Gini Coefficient",
-            "Lorenz Curve",
-            "Poverty Line",
-            "Multidimensional Poverty Index",
-            "Sustainable Development Goals",
-            "Circular Economy",
-            "Doughnut Economics",
-            "Degrowth Theory",
-            "Steady-State Economy",
-            "Ecological Economics",
-            "Environmental Economics",
-            "Natural Capital",
-            "Ecosystem Services",
-            "Carbon Pricing",
-            "Cap and Trade",
-            "Carbon Tax",
-            "Green Bonds",
-            "ESG Investing",
-            "Impact Investing",
-            "Socially Responsible Investing",
-            "Corporate Social Responsibility",
-            "Triple Bottom Line",
-            "Shared Value",
-            "Stakeholder Theory",
-            "Corporate Governance",
-            "Business Ethics",
-            "Sustainable Supply Chain",
-            "Life Cycle Assessment",
-            "Carbon Footprint",
-            "Water Footprint",
-            "Ecological Footprint",
-            "Planetary Boundaries",
-            "Anthropocene",
-            "Climate Change",
-            "Global Warming",
-            "Ocean Acidification",
-            "Biodiversity Loss",
-            "Deforestation",
-            "Desertification",
-            "Air Pollution",
-            "Water Pollution",
-            "Soil Pollution",
-            "Noise Pollution",
-            "Light Pollution",
-            "Plastic Pollution",
-            "Electronic Waste",
-            "Nuclear Waste",
-            "Hazardous Waste",
-            "Waste Management",
-            "Recycling",
-            "Composting",
-            "Zero Waste",
-            "Circular Design",
-            "Cradle to Cradle",
-            "Biomimicry",
-            "Permaculture",
-            "Regenerative Agriculture",
-            "Organic Farming",
-            "Agroecology",
-            "Urban Agriculture",
-            "Vertical Farming",
-            "Hydroponics",
-            "Aquaponics",
-            "Precision Agriculture",
-            "Smart Farming",
-            "Digital Agriculture",
-            "AgriTech",
-            "FoodTech",
-            "Food Security",
-            "Food Sovereignty",
-            "Food Systems",
-            "Farm to Table",
-            "Local Food",
-            "Slow Food Movement",
-            "Food Justice",
-            "Food Desert",
-            "Food Swamp",
-            "Food Apartheid",
-            "Nutrition Transition",
-            "Obesity Epidemic",
-            "Malnutrition",
-            "Hidden Hunger",
-            "Micronutrient Deficiency",
-            "Fortification",
-            "Biofortification",
-            "GMOs",
-            "Gene Editing",
-            "CRISPR",
-            "Synthetic Biology",
-            "Biotechnology",
-            "Nanotechnology",
-            "Artificial Intelligence",
-            "Machine Learning",
-            "Deep Learning",
-            "Neural Networks",
-            "Natural Language Processing",
-            "Computer Vision",
-            "Robotics",
-            "Automation",
-            "Internet of Things",
-            "Blockchain",
-            "Cryptocurrency",
-            "Bitcoin",
-            "Ethereum",
-            "NFTs",
-            "DeFi",
-            "Web3",
-            "Metaverse",
-            "Virtual Reality",
-            "Augmented Reality",
-            "Mixed Reality",
-            "Extended Reality",
-            "Spatial Computing",
-            "Quantum Computing",
-            "Edge Computing",
-            "Cloud Computing",
-            "Fog Computing",
-            "Distributed Computing",
-            "Parallel Computing",
-            "High-Performance Computing",
-            "Supercomputing",
-            "Big Data",
-            "Data Science",
-            "Data Analytics",
-            "Data Visualization",
-            "Data Mining",
-            "Data Warehousing",
-            "Data Lakes",
-            "Data Governance",
-            "Data Privacy",
-            "Data Security",
-            "Cybersecurity",
-            "Information Security",
-            "Network Security",
-            "Application Security",
-            "Cloud Security",
-            "IoT Security",
-            "AI Security",
-            "Quantum Cryptography",
-            "Digital Transformation",
-            "Industry 4.0",
-            "Fourth Industrial Revolution",
-            "Smart Cities",
-            "Smart Homes",
-            "Smart Grids",
-            "Smart Transportation",
-            "Autonomous Vehicles",
-            "Self-Driving Cars",
-            "Electric Vehicles",
-            "Hybrid Vehicles",
-            "Sustainable Transportation",
-            "Public Transportation",
-            "Mass Transit",
-            "High-Speed Rail",
-            "Hyperloop",
-            "Urban Planning",
-            "City Design",
-            "Walkability",
-            "Bikeability",
-            "Complete Streets",
-            "Transit-Oriented Development",
-            "Mixed-Use Development",
-            "New Urbanism",
-            "Smart Growth",
-            "Sustainable Development",
-            "Green Building",
-            "LEED Certification",
-            "Passive House",
-            "Net Zero Energy",
-            "Net Zero Carbon",
-            "Carbon Neutrality",
-            "Climate Neutrality",
-            "Energy Efficiency",
-            "Renewable Energy",
-            "Solar Energy",
-            "Wind Energy",
-            "Hydro Energy",
-            "Geothermal Energy",
-            "Biomass Energy",
-            "Nuclear Energy",
-            "Fusion Energy",
-            "Hydrogen Economy",
-            "Energy Storage",
-            "Battery Technology",
-            "Grid Modernization",
-            "Microgrids",
-            "Distributed Energy Resources",
-            "Demand Response",
-            "Energy Management",
-            "Carbon Capture",
-            "Carbon Removal",
-            "Direct Air Capture",
-            "Bioenergy with Carbon Capture",
-            "Reforestation",
-            "Afforestation",
-            "Blue Carbon",
-            "Nature-Based Solutions",
-            "Ecosystem Restoration",
-            "Restoration Ecology",
-            "Conservation Biology",
-            "Conservation Science",
-            "Biodiversity Conservation",
-            "Species Conservation",
-            "Habitat Conservation",
-            "Protected Areas",
-            "National Parks",
-            "Wildlife Corridors",
-            "Ecological Restoration",
-            "Rewilding",
-            "Invasive Species",
-            "Endangered Species",
-            "Extinction Crisis",
-            "Mass Extinction",
-            "Anthropocene Extinction",
-            "Biodiversity Hotspots",
-            "Ecosystem Services",
-            "Natural Capital Accounting",
-            "Green GDP",
-            "Beyond GDP",
-            "Genuine Progress Indicator",
-            "Human Development Index",
-            "Happy Planet Index",
-            "Social Progress Index",
-            "Better Life Index",
-            "World Happiness Report",
-            "Gross National Happiness",
-            "Subjective Well-Being",
-            "Positive Psychology",
-            "Flourishing",
-            "Eudaimonia",
-            "Meaning in Life",
-            "Purpose in Life",
-            "Life Satisfaction",
-            "Quality of Life",
-            "Standard of Living",
-            "Cost of Living",
-            "Purchasing Power Parity",
-            "Big Mac Index",
-            "Human Development",
-            "Sustainable Development",
-            "Inclusive Development",
-            "Equitable Development",
-            "Participatory Development",
-            "Community Development",
-            "Local Development",
-            "Regional Development",
-            "Rural Development",
-            "Urban Development",
-            "Economic Development",
-            "Social Development",
-            "Political Development",
-            "Cultural Development",
-            "Technological Development",
-            "Sustainable Development Goals",
-            "Millennium Development Goals",
-            "Agenda 2030",
-            "Paris Agreement",
-            "Kyoto Protocol",
-            "Montreal Protocol",
-            "Rio Declaration",
-            "Agenda 21",
-            "Stockholm Convention",
-            "Basel Convention",
-            "Rotterdam Convention",
-            "Minamata Convention",
-            "Convention on Biological Diversity",
-            "UNFCCC",
-            "UNCCD",
-            "UNCLOS",
-            "UNDRIP",
-            "UDHR",
-            "ICCPR",
-            "ICESCR",
-            "CEDAW",
-            "CRC",
-            "CRPD",
-            "ILO Conventions",
-            "Geneva Conventions",
-            "Rome Statute",
-            "Vienna Convention",
-            "Hague Conventions",
-            "WTO Agreements",
-            "NAFTA",
-            "USMCA",
-            "EU Single Market",
-            "ASEAN Economic Community",
-            "Mercosur",
-            "African Continental Free Trade Area",
-            "Regional Comprehensive Economic Partnership",
-            "Comprehensive and Progressive Agreement for Trans-Pacific Partnership",
-            "Belt and Road Initiative",
-            "Asian Infrastructure Investment Bank",
-            "New Development Bank",
-            "World Bank",
-            "IMF",
-            "WTO",
-            "UN",
-            "UNESCO",
-            "UNICEF",
-            "UNHCR",
-            "UNDP",
-            "UNEP",
-            "UN Women",
-            "WHO",
-            "FAO",
-            "ILO",
-            "IMO",
-            "ICAO",
-            "ITU",
-            "UPU",
-            "WMO",
-            "WIPO",
-            "IAEA",
-            "CTBTO",
-            "OPCW",
-            "ICC",
-            "ICJ",
-            "PCA",
-            "ITLOS",
-            "ISA",
-            "WTO",
-            "UNWTO",
-            "UNIDO",
-            "UNOPS",
-            "UNRWA",
-            "UNU",
-            "UNAIDS",
-            "UNFPA",
-            "UN-Habitat",
-            "UNODC",
-            "UNOPS",
-            "UNRWA",
-            "UNU",
-            "UN Women",
-            "UNOPS",
-            "UNRWA",
-            "UNU"
-        ];
+        const topicSets = {
+            'living-in-it-era': [
+                "Artificial Intelligence",
+                "Machine Learning",
+                "Deep Learning",
+                "Neural Networks",
+                "Natural Language Processing",
+                "Computer Vision",
+                "Robotics",
+                "Automation",
+                "Internet of Things",
+                "Blockchain",
+                "Cryptocurrency",
+                "Bitcoin",
+                "Ethereum",
+                "NFTs",
+                "DeFi",
+                "Web3",
+                "Metaverse",
+                "Virtual Reality",
+                "Augmented Reality",
+                "Mixed Reality",
+                "Extended Reality",
+                "Spatial Computing",
+                "Quantum Computing",
+                "Edge Computing",
+                "Cloud Computing",
+                "Fog Computing",
+                "Distributed Computing",
+                "Parallel Computing",
+                "High-Performance Computing",
+                "Supercomputing",
+                "Big Data",
+                "Data Science",
+                "Data Analytics",
+                "Data Visualization",
+                "Data Mining",
+                "Data Warehousing",
+                "Data Lakes",
+                "Data Governance",
+                "Data Privacy",
+                "Data Security",
+                "Cybersecurity",
+                "Information Security",
+                "Network Security",
+                "Application Security",
+                "Cloud Security",
+                "IoT Security",
+                "AI Security",
+                "Quantum Cryptography",
+                "Digital Transformation",
+                "Industry 4.0",
+                "Fourth Industrial Revolution",
+                "Smart Cities",
+                "Smart Homes",
+                "Smart Grids",
+                "Smart Transportation",
+                "Autonomous Vehicles",
+                "Self-Driving Cars",
+                "Electric Vehicles",
+                "5G Technology",
+                "6G Technology",
+                "Network Infrastructure",
+                "Fiber Optics",
+                "Satellite Internet",
+                "Starlink",
+                "Software Development",
+                "Full Stack Development",
+                "Frontend Development",
+                "Backend Development",
+                "DevOps",
+                "CI/CD",
+                "Agile Methodology",
+                "Scrum",
+                "Kanban",
+                "Version Control",
+                "Git",
+                "GitHub",
+                "Open Source",
+                "API Development",
+                "RESTful APIs",
+                "GraphQL",
+                "Microservices",
+                "Serverless Computing",
+                "Containerization",
+                "Docker",
+                "Kubernetes",
+                "Virtualization",
+                "Cloud Platforms",
+                "AWS",
+                "Azure",
+                "Google Cloud",
+                "SaaS",
+                "PaaS",
+                "IaaS",
+                "Mobile Development",
+                "iOS Development",
+                "Android Development",
+                "Cross-Platform Development",
+                "React Native",
+                "Flutter",
+                "Progressive Web Apps",
+                "WebAssembly",
+                "Low Code",
+                "No Code",
+                "Digital Literacy",
+                "Information Literacy",
+                "Media Literacy",
+                "Digital Citizenship",
+                "Online Privacy",
+                "Digital Footprint",
+                "Social Media",
+                "Social Networking",
+                "Content Creation",
+                "Influencer Marketing",
+                "Digital Marketing",
+                "SEO",
+                "SEM",
+                "Email Marketing",
+                "E-commerce",
+                "Digital Payments",
+                "Fintech",
+                "Neobanks",
+                "Digital Banking",
+                "Cryptocurrency",
+                "Digital Identity",
+                "Biometrics",
+                "Face Recognition",
+                "Voice Recognition",
+                "Digital Health",
+                "Telemedicine",
+                "Wearable Technology",
+                "Health Apps",
+                "Fitness Trackers",
+                "Smartwatches",
+                "EdTech",
+                "Online Learning",
+                "MOOCs",
+                "Learning Management Systems",
+                "Gamification",
+                "Remote Work",
+                "Digital Nomad",
+                "Collaboration Tools",
+                "Video Conferencing",
+                "Project Management Software",
+                "Digital Communication",
+                "Instant Messaging",
+                "Video Calls",
+                "Digital Collaboration",
+                "Cloud Storage",
+                "File Sharing",
+                "Digital Documents",
+                "E-signatures",
+                "Digital Contracts",
+                "Smart Contracts",
+                "Digital Art",
+                "NFT Art",
+                "Generative Art",
+                "AI Art",
+                "Digital Music",
+                "Streaming Services",
+                "Podcasts",
+                "Digital Entertainment",
+                "Gaming",
+                "Esports",
+                "VR Gaming",
+                "AR Gaming",
+                "Cloud Gaming",
+                "Digital Ethics",
+                "AI Ethics",
+                "Tech Ethics",
+                "Digital Rights",
+                "Net Neutrality",
+                "Digital Divide",
+                "Tech Accessibility",
+                "Inclusive Design",
+                "Universal Design",
+                "Sustainable Technology",
+                "Green Computing",
+                "E-waste",
+                "Tech Sustainability",
+                "Circular Economy in Tech",
+                "Digital Sustainability"
+            ],
+            'psychology': [
+                "Dunning-Kruger Effect",
+                "Confirmation Bias",
+                "Cognitive Dissonance",
+                "Imposter Syndrome",
+                "Survivorship Bias",
+                "Sunk Cost Fallacy",
+                "Anchoring Bias",
+                "Availability Heuristic",
+                "Fundamental Attribution Error",
+                "Groupthink",
+                "Spotlight Effect",
+                "Halo Effect",
+                "Self-Fulfilling Prophecy",
+                "Placebo Effect",
+                "Bandwagon Effect",
+                "False Consensus Effect",
+                "Optimism Bias",
+                "Negativity Bias",
+                "Recency Bias",
+                "Loss Aversion",
+                "Endowment Effect",
+                "Decoy Effect",
+                "Framing Effect",
+                "Status Quo Bias",
+                "Omission Bias",
+                "Action Bias",
+                "Choice Paradox",
+                "Zeigarnik Effect",
+                "Baader-Meinhof Phenomenon",
+                "Ben Franklin Effect",
+                "Foot-in-the-door Technique",
+                "Door-in-the-face Technique",
+                "Reactance Theory",
+                "Social Proof",
+                "Authority Bias",
+                "Scarcity Principle",
+                "Reciprocity Norm",
+                "Commitment Consistency",
+                "Liking Principle",
+                "Unity Principle",
+                "Motivated Reasoning",
+                "Belief Perseverance",
+                "Backfire Effect",
+                "Bias Blind Spot",
+                "Not Invented Here Syndrome",
+                "IKEA Effect",
+                "Planning Fallacy",
+                "Hindsight Bias",
+                "Outcome Bias",
+                "Gambler's Fallacy",
+                "Hot Hand Fallacy",
+                "Texas Sharpshooter Fallacy",
+                "Straw Man Fallacy",
+                "Ad Hominem Fallacy",
+                "Slippery Slope Fallacy",
+                "False Dilemma Fallacy",
+                "Circular Reasoning",
+                "Appeal to Authority",
+                "Appeal to Emotion",
+                "Appeal to Ignorance",
+                "Red Herring Fallacy",
+                "Cherry Picking",
+                "Moving the Goalposts",
+                "Curse of Knowledge",
+                "Illusion of Transparency",
+                "Illusion of Validity",
+                "Illusion of Control",
+                "Conjunction Fallacy",
+                "Base Rate Fallacy",
+                "Representativeness Heuristic",
+                "Affect Heuristic",
+                "Familiarity Heuristic",
+                "Satisficing",
+                "Bounded Rationality",
+                "Prospect Theory",
+                "Mental Accounting",
+                "Pareto Principle",
+                "Parkinson's Law",
+                "Peter Principle",
+                "Murphy's Law",
+                "Hanlon's Razor",
+                "Occam's Razor",
+                "Hick's Law",
+                "Miller's Law",
+                "Fitts's Law",
+                "Jakob's Law",
+                "Law of Triviality",
+                "Bikeshedding",
+                "Analysis Paralysis",
+                "Decision Fatigue",
+                "Choice Overload",
+                "Paradox of Choice",
+                "Flow State",
+                "Deep Work",
+                "Pomodoro Technique",
+                "Time Boxing",
+                "Eisenhower Matrix",
+                "2-Minute Rule",
+                "5-Second Rule",
+                "20-20-20 Rule",
+                "80/20 Rule",
+                "First Principles Thinking",
+                "Second-Order Thinking",
+                "Systems Thinking",
+                "Critical Thinking",
+                "Design Thinking",
+                "Lateral Thinking",
+                "Divergent Thinking",
+                "Convergent Thinking",
+                "Creative Problem Solving",
+                "Brainstorming",
+                "Mind Mapping",
+                "SCAMPER",
+                "Six Thinking Hats",
+                "SWOT Analysis",
+                "Root Cause Analysis",
+                "5 Whys",
+                "Fishbone Diagram",
+                "Pareto Analysis",
+                "Decision Matrix",
+                "Cost-Benefit Analysis",
+                "Risk Assessment",
+                "Scenario Planning",
+                "Contingency Planning",
+                "Growth Mindset",
+                "Fixed Mindset",
+                "Resilience",
+                "Grit",
+                "Self-Efficacy",
+                "Self-Determination Theory",
+                "Intrinsic Motivation",
+                "Extrinsic Motivation",
+                "Maslow's Hierarchy",
+                "Herzberg's Two-Factor Theory",
+                "Expectancy Theory",
+                "Equity Theory",
+                "Goal Setting Theory",
+                "SMART Goals",
+                "OKRs",
+                "KPIs",
+                "Habit Formation",
+                "Atomic Habits",
+                "Habit Loop",
+                "Trigger-Action",
+                "Implementation Intentions",
+                "Temptation Bundling",
+                "Habit Stacking",
+                "Environment Design",
+                "Friction",
+                "Nudge Theory",
+                "Choice Architecture",
+                "Default Effect",
+                "Endowment Effect",
+                "Loss Aversion",
+                "Anchoring",
+                "Social Norms",
+                "Social Influence",
+                "Conformity",
+                "Compliance",
+                "Obedience",
+                "Milgram Experiment",
+                "Stanford Prison Experiment",
+                "Asch Conformity",
+                "Bystander Effect",
+                "Diffusion of Responsibility",
+                "Kitty Genovese Syndrome",
+                "Learned Helplessness",
+                "Learned Optimism",
+                "Cognitive Behavioral Therapy",
+                "CBT",
+                "Mindfulness",
+                "Meditation",
+                "Stoicism",
+                "Emotional Intelligence",
+                "EQ",
+                "Self-Awareness",
+                "Self-Regulation",
+                "Empathy",
+                "Social Skills",
+                "Active Listening",
+                "Nonviolent Communication",
+                "Conflict Resolution",
+                "Negotiation",
+                "Persuasion",
+                "Influence",
+                "Leadership",
+                "Management",
+                "Team Dynamics",
+                "Group Dynamics",
+                "Organizational Behavior",
+                "Organizational Psychology",
+                "Industrial Psychology",
+                "Consumer Behavior",
+                "Behavioral Economics",
+                "Neuroeconomics",
+                "Neuromarketing",
+                "Decision Making",
+                "Problem Solving",
+                "Critical Analysis",
+                "Logical Reasoning",
+                "Argumentation",
+                "Rhetoric",
+                "Propaganda",
+                "Misinformation",
+                "Disinformation",
+                "Fake News",
+                "Media Bias",
+                "Confirmation Bias",
+                "Echo Chambers",
+                "Filter Bubbles",
+                "Algorithmic Bias",
+                "AI Bias",
+                "Data Bias",
+                "Selection Bias",
+                "Sampling Bias",
+                "Observer Bias",
+                "Reporting Bias",
+                "Publication Bias",
+                "Survivorship Bias",
+                "Recall Bias",
+                "Memory Bias",
+                "Attention Bias",
+                "Attribution Bias",
+                "Correspondence Bias",
+                "Actor-Observer Bias",
+                "Self-Serving Bias",
+                "Just-World Hypothesis",
+                "Magical Thinking",
+                "Superstition",
+                "Paranormal Beliefs",
+                "Conspiracy Theories",
+                "Cognitive Distortions",
+                "All-or-Nothing Thinking",
+                "Overgeneralization",
+                "Mental Filter",
+                "Disqualifying the Positive",
+                "Jumping to Conclusions",
+                "Mind Reading",
+                "Fortune Telling",
+                "Magnification",
+                "Minimization",
+                "Emotional Reasoning",
+                "Should Statements",
+                "Labeling",
+                "Personalization",
+                "Blaming",
+                "Cognitive Restructuring",
+                "Thought Records",
+                "Behavioral Activation",
+                "Exposure Therapy",
+                "Systematic Desensitization",
+                "Flooding",
+                "Aversion Therapy",
+                "Behavior Modification",
+                "Operant Conditioning",
+                "Classical Conditioning",
+                "Pavlovian Conditioning",
+                "Skinner Box",
+                "Reinforcement",
+                "Punishment",
+                "Positive Reinforcement",
+                "Negative Reinforcement",
+                "Positive Punishment",
+                "Negative Punishment",
+                "Schedules of Reinforcement",
+                "Continuous Reinforcement",
+                "Intermittent Reinforcement",
+                "Fixed Ratio",
+                "Variable Ratio",
+                "Fixed Interval",
+                "Variable Interval",
+                "Shaping",
+                "Chaining",
+                "Fading",
+                "Token Economy",
+                "Contingency Management",
+                "Behavioral Contract",
+                "Modeling",
+                "Observational Learning",
+                "Social Learning Theory",
+                "Bandura's Theory",
+                "Self-Efficacy",
+                "Reciprocal Determinism"
+            ],
+            'mixed': [
+                "Dunning-Kruger Effect",
+                "Artificial Intelligence",
+                "Confirmation Bias",
+                "Machine Learning",
+                "Cognitive Dissonance",
+                "Deep Learning",
+                "Imposter Syndrome",
+                "Neural Networks",
+                "Survivorship Bias",
+                "Natural Language Processing",
+                "Sunk Cost Fallacy",
+                "Computer Vision",
+                "Anchoring Bias",
+                "Robotics",
+                "Availability Heuristic",
+                "Automation",
+                "Fundamental Attribution Error",
+                "Internet of Things",
+                "Groupthink",
+                "Blockchain",
+                "Spotlight Effect",
+                "Cryptocurrency",
+                "Halo Effect",
+                "Bitcoin",
+                "Self-Fulfilling Prophecy",
+                "Ethereum",
+                "Placebo Effect",
+                "NFTs",
+                "Bandwagon Effect",
+                "DeFi",
+                "False Consensus Effect",
+                "Web3",
+                "Optimism Bias",
+                "Metaverse",
+                "Negativity Bias",
+                "Virtual Reality",
+                "Recency Bias",
+                "Augmented Reality",
+                "Loss Aversion",
+                "Mixed Reality",
+                "Endowment Effect",
+                "Quantum Computing",
+                "Decoy Effect",
+                "Cloud Computing",
+                "Framing Effect",
+                "Big Data",
+                "Status Quo Bias",
+                "Data Science",
+                "Omission Bias",
+                "Cybersecurity",
+                "Action Bias",
+                "Digital Transformation",
+                "Choice Paradox",
+                "Industry 4.0",
+                "Zeigarnik Effect",
+                "Smart Cities",
+                "Baader-Meinhof Phenomenon",
+                "Autonomous Vehicles",
+                "Ben Franklin Effect",
+                "5G Technology",
+                "Foot-in-the-door Technique",
+                "Software Development",
+                "Door-in-the-face Technique",
+                "DevOps",
+                "Reactance Theory",
+                "Agile Methodology",
+                "Social Proof",
+                "Digital Literacy",
+                "Authority Bias",
+                "Digital Privacy",
+                "Scarcity Principle",
+                "Social Media",
+                "Reciprocity Norm",
+                "Digital Marketing",
+                "Commitment Consistency",
+                "E-commerce",
+                "Liking Principle",
+                "Fintech",
+                "Unity Principle",
+                "Digital Health",
+                "Motivated Reasoning",
+                "Telemedicine",
+                "Belief Perseverance",
+                "EdTech",
+                "Backfire Effect",
+                "Remote Work",
+                "Bias Blind Spot",
+                "Digital Collaboration",
+                "Not Invented Here Syndrome",
+                "Cloud Storage",
+                "IKEA Effect",
+                "Digital Ethics",
+                "Planning Fallacy",
+                "AI Ethics",
+                "Hindsight Bias",
+                "Tech Ethics",
+                "Outcome Bias",
+                "Digital Rights",
+                "Gambler's Fallacy",
+                "Net Neutrality",
+                "Hot Hand Fallacy",
+                "Digital Divide",
+                "Texas Sharpshooter Fallacy",
+                "Tech Accessibility",
+                "Straw Man Fallacy",
+                "Inclusive Design",
+                "Ad Hominem Fallacy",
+                "Sustainable Technology",
+                "Slippery Slope Fallacy",
+                "Green Computing",
+                "False Dilemma Fallacy",
+                "E-waste",
+                "Circular Reasoning",
+                "Tech Sustainability",
+                "Appeal to Authority",
+                "Circular Economy in Tech",
+                "Appeal to Emotion",
+                "Digital Sustainability",
+                "Appeal to Ignorance",
+                "Pareto Principle",
+                "Red Herring Fallacy",
+                "Parkinson's Law",
+                "Cherry Picking",
+                "Peter Principle",
+                "Moving the Goalposts",
+                "Murphy's Law",
+                "Curse of Knowledge",
+                "Hanlon's Razor",
+                "Illusion of Transparency",
+                "Occam's Razor",
+                "Illusion of Validity",
+                "Hick's Law",
+                "Illusion of Control",
+                "Miller's Law",
+                "Conjunction Fallacy",
+                "Fitts's Law",
+                "Base Rate Fallacy",
+                "Jakob's Law",
+                "Representativeness Heuristic",
+                "Law of Triviality",
+                "Affect Heuristic",
+                "Bikeshedding",
+                "Familiarity Heuristic",
+                "Analysis Paralysis",
+                "Satisficing",
+                "Decision Fatigue",
+                "Bounded Rationality",
+                "Choice Overload",
+                "Prospect Theory",
+                "Paradox of Choice",
+                "Mental Accounting",
+                "Flow State",
+                "Deep Work",
+                "Pomodoro Technique",
+                "Time Boxing",
+                "Eisenhower Matrix",
+                "2-Minute Rule",
+                "5-Second Rule",
+                "20-20-20 Rule",
+                "80/20 Rule",
+                "First Principles Thinking",
+                "Second-Order Thinking",
+                "Systems Thinking",
+                "Critical Thinking",
+                "Design Thinking",
+                "Lateral Thinking",
+                "Divergent Thinking",
+                "Convergent Thinking",
+                "Creative Problem Solving",
+                "Brainstorming",
+                "Mind Mapping",
+                "SCAMPER",
+                "Six Thinking Hats",
+                "SWOT Analysis",
+                "Root Cause Analysis",
+                "5 Whys",
+                "Fishbone Diagram",
+                "Pareto Analysis",
+                "Decision Matrix",
+                "Cost-Benefit Analysis",
+                "Risk Assessment",
+                "Scenario Planning",
+                "Contingency Planning",
+                "Growth Mindset",
+                "Fixed Mindset",
+                "Resilience",
+                "Grit",
+                "Self-Efficacy",
+                "Self-Determination Theory",
+                "Intrinsic Motivation",
+                "Extrinsic Motivation",
+                "Maslow's Hierarchy",
+                "Herzberg's Two-Factor Theory",
+                "Expectancy Theory",
+                "Equity Theory",
+                "Goal Setting Theory",
+                "SMART Goals",
+                "OKRs",
+                "KPIs",
+                "Habit Formation",
+                "Atomic Habits",
+                "Habit Loop",
+                "Trigger-Action",
+                "Implementation Intentions",
+                "Temptation Bundling",
+                "Habit Stacking",
+                "Environment Design",
+                "Friction",
+                "Nudge Theory",
+                "Choice Architecture",
+                "Default Effect",
+                "Endowment Effect",
+                "Loss Aversion",
+                "Anchoring",
+                "Social Norms",
+                "Social Influence",
+                "Conformity",
+                "Compliance",
+                "Obedience",
+                "Milgram Experiment",
+                "Stanford Prison Experiment",
+                "Asch Conformity",
+                "Bystander Effect",
+                "Diffusion of Responsibility",
+                "Kitty Genovese Syndrome",
+                "Learned Helplessness",
+                "Learned Optimism",
+                "Cognitive Behavioral Therapy",
+                "CBT",
+                "Mindfulness",
+                "Meditation",
+                "Stoicism",
+                "Emotional Intelligence",
+                "EQ",
+                "Self-Awareness",
+                "Self-Regulation",
+                "Empathy",
+                "Social Skills",
+                "Active Listening",
+                "Nonviolent Communication",
+                "Conflict Resolution",
+                "Negotiation",
+                "Persuasion",
+                "Influence",
+                "Leadership",
+                "Management",
+                "Team Dynamics",
+                "Group Dynamics",
+                "Organizational Behavior",
+                "Organizational Psychology",
+                "Industrial Psychology",
+                "Consumer Behavior",
+                "Behavioral Economics",
+                "Neuroeconomics",
+                "Neuromarketing",
+                "Decision Making",
+                "Problem Solving",
+                "Critical Analysis",
+                "Logical Reasoning",
+                "Argumentation",
+                "Rhetoric",
+                "Propaganda",
+                "Misinformation",
+                "Disinformation",
+                "Fake News",
+                "Media Bias",
+                "Confirmation Bias",
+                "Echo Chambers",
+                "Filter Bubbles",
+                "Algorithmic Bias",
+                "AI Bias",
+                "Data Bias",
+                "Selection Bias",
+                "Sampling Bias",
+                "Observer Bias",
+                "Reporting Bias",
+                "Publication Bias",
+                "Survivorship Bias",
+                "Recall Bias",
+                "Memory Bias",
+                "Attention Bias",
+                "Attribution Bias",
+                "Correspondence Bias",
+                "Actor-Observer Bias",
+                "Self-Serving Bias",
+                "Just-World Hypothesis",
+                "Magical Thinking",
+                "Superstition",
+                "Paranormal Beliefs",
+                "Conspiracy Theories",
+                "Cognitive Distortions",
+                "All-or-Nothing Thinking",
+                "Overgeneralization",
+                "Mental Filter",
+                "Disqualifying the Positive",
+                "Jumping to Conclusions",
+                "Mind Reading",
+                "Fortune Telling",
+                "Magnification",
+                "Minimization",
+                "Emotional Reasoning",
+                "Should Statements",
+                "Labeling",
+                "Personalization",
+                "Blaming",
+                "Cognitive Restructuring",
+                "Thought Records",
+                "Behavioral Activation",
+                "Exposure Therapy",
+                "Systematic Desensitization",
+                "Flooding",
+                "Aversion Therapy",
+                "Behavior Modification",
+                "Operant Conditioning",
+                "Classical Conditioning",
+                "Pavlovian Conditioning",
+                "Skinner Box",
+                "Reinforcement",
+                "Punishment",
+                "Positive Reinforcement",
+                "Negative Reinforcement",
+                "Positive Punishment",
+                "Negative Punishment",
+                "Schedules of Reinforcement",
+                "Continuous Reinforcement",
+                "Intermittent Reinforcement",
+                "Fixed Ratio",
+                "Variable Ratio",
+                "Fixed Interval",
+                "Variable Interval",
+                "Shaping",
+                "Chaining",
+                "Fading",
+                "Token Economy",
+                "Contingency Management",
+                "Behavioral Contract",
+                "Modeling",
+                "Observational Learning",
+                "Social Learning Theory",
+                "Bandura's Theory",
+                "Self-Efficacy",
+                "Reciprocal Determinism"
+            ]
+        };
+
+        let currentTopics = topicSets['living-in-it-era'];
 
         let isRolling = false;
         let rollInterval;
-        const topicElement = document.getElementById('topic');
+        const topic1Element = document.getElementById('topic1');
+        const topic2Element = document.getElementById('topic2');
         const spinButton = document.getElementById('spinButton');
+        const subjectSelect = document.getElementById('subjectSelect');
+
+        let timerInterval;
+        let timerSeconds = 120;
+        let timerRunning = false;
+
+        function updateTopics() {
+            const selectedSubject = subjectSelect.value;
+            currentTopics = topicSets[selectedSubject];
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+        }
+
+        function toggleTimer() {
+            const timerSection = document.getElementById('timerSection');
+            timerSection.classList.toggle('active');
+        }
+
+        function startTimer() {
+            if (timerRunning) return;
+            timerRunning = true;
+            timerInterval = setInterval(() => {
+                if (timerSeconds > 0) {
+                    timerSeconds--;
+                    updateTimerDisplay();
+                } else {
+                    pauseTimer();
+                    alert('Time is up!');
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerSeconds = 120;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
 
         function spinTopic() {
             if (isRolling) return;
             
             isRolling = true;
             spinButton.disabled = true;
-            topicElement.classList.add('rolling');
-            topicElement.classList.remove('revealed');
-            document.querySelector('.topic-display').classList.add('rolling');
+            topic1Element.classList.add('rolling');
+            topic2Element.classList.add('rolling');
+            topic1Element.classList.remove('revealed');
+            topic2Element.classList.remove('revealed');
             
             let counter = 0;
             const totalRolls = 20;
@@ -704,8 +1269,17 @@
             const intervalTime = rollDuration / totalRolls;
             
             rollInterval = setInterval(() => {
-                const randomTopic = topics[Math.floor(Math.random() * topics.length)];
-                topicElement.textContent = randomTopic;
+                const randomTopic1 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+                const randomTopic2 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+                
+                // Ensure different topics
+                let topic2 = randomTopic2;
+                while (topic2 === randomTopic1 && currentTopics.length > 1) {
+                    topic2 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+                }
+                
+                topic1Element.textContent = randomTopic1;
+                topic2Element.textContent = topic2;
                 counter++;
                 
                 if (counter >= totalRolls) {
@@ -716,11 +1290,20 @@
         }
 
         function finalizeTopic() {
-            const finalTopic = topics[Math.floor(Math.random() * topics.length)];
-            topicElement.textContent = finalTopic;
-            topicElement.classList.remove('rolling');
-            topicElement.classList.add('revealed');
-            document.querySelector('.topic-display').classList.remove('rolling');
+            const finalTopic1 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+            let finalTopic2 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+            
+            // Ensure different topics
+            while (finalTopic2 === finalTopic1 && currentTopics.length > 1) {
+                finalTopic2 = currentTopics[Math.floor(Math.random() * currentTopics.length)];
+            }
+            
+            topic1Element.textContent = finalTopic1;
+            topic2Element.textContent = finalTopic2;
+            topic1Element.classList.remove('rolling');
+            topic2Element.classList.remove('rolling');
+            topic1Element.classList.add('revealed');
+            topic2Element.classList.add('revealed');
             
             isRolling = false;
             spinButton.disabled = false;
