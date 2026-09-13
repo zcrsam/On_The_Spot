@@ -6,7 +6,7 @@
     <title>On The Spot - Random Topic Generator</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,7 +15,7 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Playfair Display', serif;
             background: #0a0a0a;
             min-height: 100vh;
             display: flex;
@@ -38,9 +38,9 @@
 
         h1 {
             color: #fff;
-            font-weight: 600;
-            font-size: 2rem;
-            letter-spacing: -0.02em;
+            font-weight: 500;
+            font-size: 2.5rem;
+            letter-spacing: 0.05em;
             margin-bottom: 0.5rem;
             opacity: 0.9;
             transition: color 0.3s ease;
@@ -52,10 +52,10 @@
 
         .subtitle {
             color: #666;
-            font-size: 0.875rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.02em;
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
             transition: color 0.3s ease;
         }
 
@@ -63,56 +63,39 @@
             color: #666;
         }
 
-        .subject-selector {
-            margin-bottom: 1rem;
-        }
-
         .topic-count-selector {
             margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
         }
 
-        .topic-count-selector select {
+        .count-btn {
             background: transparent;
             color: #fff;
-            border: none;
-            padding: 0.75rem 1.5rem;
+            border: 1px solid #333;
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
             font-size: 0.875rem;
             font-family: inherit;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
+            transition: all 0.3s ease;
+            border-radius: 50px;
         }
 
-        body.light-mode .topic-count-selector select {
+        body.light-mode .count-btn {
             color: #1a1a1a;
+            border-color: #e0e0e0;
         }
 
-        .topic-count-selector select:hover {
+        .count-btn:hover {
+            border-color: #ff00ff;
             color: #ff00ff;
         }
 
-        .subject-selector select {
-            background: transparent;
-            color: #fff;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-size: 0.875rem;
-            font-family: inherit;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-        }
-
-        body.light-mode .subject-selector select {
-            color: #1a1a1a;
-        }
-
-        .subject-selector select:hover {
-            color: #ff00ff;
+        .count-btn.active {
+            background: #ff00ff;
+            color: #0a0a0a;
+            border-color: #ff00ff;
         }
 
         .topic-display {
@@ -155,9 +138,9 @@
 
         .topic-text {
             color: #fff;
-            font-size: 1.25rem;
-            font-weight: 500;
-            letter-spacing: -0.01em;
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
             line-height: 1.4;
             transition: all 0.3s ease;
         }
@@ -213,41 +196,15 @@
             margin-bottom: 1rem;
         }
 
-        .timer-input {
-            background: transparent;
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 400;
             color: #fff;
-            border: none;
-            font-size: 3rem;
-            font-weight: 300;
-            width: 80px;
-            text-align: center;
-            font-family: inherit;
-            -moz-appearance: textfield;
-            appearance: textfield;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
         }
 
-        .timer-input::-webkit-outer-spin-button,
-        .timer-input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        body.light-mode .timer-input {
-            color: #1a1a1a;
-        }
-
-        .timer-input:focus {
-            outline: none;
-            color: #ff00ff;
-        }
-
-        .timer-separator {
-            font-size: 3rem;
-            font-weight: 300;
-            color: #fff;
-        }
-
-        body.light-mode .timer-separator {
+        body.light-mode .timer-display {
             color: #1a1a1a;
         }
 
@@ -263,7 +220,7 @@
             border: none;
             padding: 0.5rem 1rem;
             cursor: pointer;
-            font-size: 0.875rem;
+            font-size: 1.5rem;
             transition: color 0.3s ease;
         }
 
@@ -299,18 +256,20 @@
         .spin-button {
             background: transparent;
             color: #ff00ff;
-            border: none;
+            border: 1px solid #ff00ff;
             padding: 1rem 3rem;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 400;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
             font-family: inherit;
-            letter-spacing: -0.01em;
+            letter-spacing: 0.1em;
+            border-radius: 50px;
         }
 
         .spin-button:hover {
             color: #00ffff;
+            border-color: #00ffff;
         }
 
         .spin-button:active {
@@ -359,22 +318,12 @@
     
     <div class="container">
         <h1>On The Spot</h1>
-        <p class="subtitle">Select subject and spin to get two topics to relate</p>
+        <p class="subtitle">Spin to get random topics</p>
         
-        <div class="subject-selector">
-            <select id="subjectSelect" onchange="updateTopics()">
-                <option value="living-in-it-era">Living in the IT Era</option>
-                <option value="psychology">Psychology & Cognitive Science</option>
-                <option value="mixed">Mixed Topics</option>
-            </select>
-        </div>
-
         <div class="topic-count-selector">
-            <select id="topicCountSelect" onchange="updateTopicCount()">
-                <option value="1">1 Topic</option>
-                <option value="2" selected>2 Topics</option>
-                <option value="3">3 Topics</option>
-            </select>
+            <button class="count-btn" onclick="setTopicCount(1)" id="count1">1</button>
+            <button class="count-btn active" onclick="setTopicCount(2)" id="count2">2</button>
+            <button class="count-btn" onclick="setTopicCount(3)" id="count3">3</button>
         </div>
         
         <div class="topic-display">
@@ -394,15 +343,11 @@
         <button class="timer-toggle" onclick="toggleTimer()">⏱ Timer</button>
         
         <div class="timer-section" id="timerSection">
-            <div class="timer-inputs">
-                <input type="number" id="timerMinutes" value="2" min="0" max="99" class="timer-input">
-                <span class="timer-separator">:</span>
-                <input type="number" id="timerSeconds" value="0" min="0" max="59" class="timer-input">
-            </div>
+            <p class="timer-display" id="timerDisplay">2:00</p>
             <div class="timer-controls">
-                <button class="timer-btn" onclick="startTimer()">Start</button>
-                <button class="timer-btn" onclick="pauseTimer()">Pause</button>
-                <button class="timer-btn" onclick="resetTimer()">Reset</button>
+                <button class="timer-btn" onclick="startTimer()">▶</button>
+                <button class="timer-btn" onclick="pauseTimer()">⏸</button>
+                <button class="timer-btn" onclick="resetTimer()">↺</button>
             </div>
         </div>
         
@@ -1225,13 +1170,12 @@
             ]
         };
 
-        let currentTopics = topicSets['living-in-it-era'];
+        let currentTopics = topicSets['mixed'];
         let topicCount = 2;
 
         let isRolling = false;
         let rollInterval;
         const spinButton = document.getElementById('spinButton');
-        const subjectSelect = document.getElementById('subjectSelect');
 
         function getTopicElements() {
             const elements = [];
@@ -1245,13 +1189,16 @@
         let timerSeconds = 120;
         let timerRunning = false;
 
-        function updateTopics() {
-            const selectedSubject = subjectSelect.value;
-            currentTopics = topicSets[selectedSubject];
-        }
-
-        function updateTopicCount() {
-            topicCount = parseInt(document.getElementById('topicCountSelect').value);
+        function setTopicCount(count) {
+            topicCount = count;
+            
+            // Update button states
+            for (let i = 1; i <= 3; i++) {
+                const btn = document.getElementById(`count${i}`);
+                btn.classList.remove('active');
+            }
+            document.getElementById(`count${count}`).classList.add('active');
+            
             updateTopicDisplay();
         }
 
@@ -1307,19 +1254,9 @@
         function updateTimerDisplay() {
             const minutes = Math.floor(timerSeconds / 60);
             const seconds = timerSeconds % 60;
-            document.getElementById('timerMinutes').value = minutes;
-            document.getElementById('timerSeconds').value = seconds.toString().padStart(2, '0');
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
         }
-
-        function updateTimerFromInputs() {
-            const minutes = parseInt(document.getElementById('timerMinutes').value) || 0;
-            const seconds = parseInt(document.getElementById('timerSeconds').value) || 0;
-            timerSeconds = minutes * 60 + seconds;
-        }
-
-        // Add event listeners to timer inputs
-        document.getElementById('timerMinutes').addEventListener('change', updateTimerFromInputs);
-        document.getElementById('timerSeconds').addEventListener('change', updateTimerFromInputs);
 
         function spinTopic() {
             if (isRolling) return;
